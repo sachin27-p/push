@@ -1,3 +1,8 @@
-FROM nginx:latest
+# Use the official nginx image from the Docker Hub
+FROM nginx:alpine
 
-RUN echo "Hello World!" > /usr/share/nginx/html/index.html
+# Copy the HTML file into the nginx container
+COPY index.html /usr/share/nginx/html/index.html
+
+# Expose port 80 to the outside world
+EXPOSE 80
