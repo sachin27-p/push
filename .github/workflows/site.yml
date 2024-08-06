@@ -16,7 +16,7 @@ jobs:
       uses: actions/checkout@v4
 
     - name: install the gcloud 
-      uses: google-github-actions/setup-gcloud@c0590608abfef96ce4f0e42d1dd61a3f3de158ea3afb81fbb1c37f0772a9d5a2
+      uses: google-github-actions/setup-gcloud@v1
       with:
         project_id: ${{ secrets.GCP_PROJECT }}
         service_account_key: ${{ secrets.GCP_SA_KEY }}
