@@ -32,6 +32,9 @@ jobs:
       run: docker build -t gcr.io/${{ secrets.GCP_PROJECT }}/webpage:${{ github.sha }} .
     
     - name: Push Docker Image to GCR
-      run: docker push gcr.io/${{ secrets.GCP_PROJECT }}/admin:${{ secrets.GCP_SA_KEY  }}/webpage:${{github.sha}}
+      run: |
+        gcloud auth configure-docker us-central1-docker.pkg.dev
+        docker push us-central1-docker.pkg.dev/kube-429706/admin/webpage:latest
+
 
    
