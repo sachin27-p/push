@@ -32,6 +32,6 @@ jobs:
       run: docker build -t gcr.io/${{ secrets.GCP_PROJECT }}/webpage:${{ github.sha }} .
     
     - name: Push Docker Image to GCR
-      run: docker push gcr.io/${{ secrets.GCP_PROJECT }}/${{ secrets.GCP_SA_KEY  }}/webpage:${{github.sha}}
+      run: docker push gcr.io/${{ secrets.GCP_PROJECT }}/admin:${{ secrets.GCP_SA_KEY  }}/webpage:${{github.sha}}
 
    
