@@ -6,7 +6,8 @@ on:
     - 'main'
 
 jobs:
-  deploy:
+  deploy: 
+    name: Build and Push Docker Image
     runs-on: ubuntu-latest
     env: 
         image_name: webpage
@@ -15,25 +16,22 @@ jobs:
     - name: code checkout
       uses: actions/checkout@v4
 
-    - name: install the gcloud 
-      uses: google-github-actions/setup-gcloud@v0
+    
+    - name: Set up Google Cloud SDK
+      uses: google-github-actions/setup-gcloud@v1
       with:
+        version: 'latest'
         project_id: ${{ secrets.GCP_PROJECT }}
-        service_account_key: ${{ secrets.GCP_SA_KEY }}
+        service_account_key: ${{ secrets.GCP_SA_KEY }}    
         #install_components: 'gke-gcloud-auth-plugin'
         export_default_credentials: true
 
-    - name: build and push the docker image
-      env:
-        GCP_PROJECT: ${{ secrets.GCP_PROJECT }}
-      run: |
-        gcloud auth configure-docker us-central1-docker.pkg.dev
-        docker build -t us-central1-docker.pkg.dev/kube-429706/admin/webpage:latest .
-        docker push us-central1-docker.pkg.dev/kube-429706/admin/webpage:latest
-    #- name: deploy to gke
-     # env:
-      #    GCP_PROJECT: ${{ secrets.GCP_PROJECT }}
-      #run: |
-       #   gcloud container clusters get-credentials autopilot-cluster-1 --region us-central1
-        #  sed -i "s/GCP_PROJECT/$GCP_PROJECT/g" web.yml
-         # kubectl apply -f web.yml
+    - name: Authenticate Docker to Google Container Registry
+      run: gcloud auth configure-docker    
+    - name: Build Docker image
+      run: docker build -t gcr.io/${{ secrets.GCP_PROJECT }}/my-app:${{ github.sha }} .
+    - name: Push Docker image
+      run: docker push gcr.io/${{ secrets.GCP_PROJECT }}/my-app:${{ github.sha }}
+      
+
+   
