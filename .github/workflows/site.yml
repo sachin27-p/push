@@ -29,9 +29,9 @@ jobs:
     - name: Authenticate Docker to Google Container Registry
       run: gcloud auth configure-docker    
     - name: Build Docker image
-      run: docker build -t gcr.io/${{ secrets.GCP_PROJECT }}/my-app:${{ github.sha }} .
+      run: docker build -t gcr.io/${{ secrets.GCP_PROJECT }}/webpage:${{ github.sha }} .
     
     - name: Push Docker Image to GCR
-      run: docker push gcr.io/${{ secrets.GCP_PROJECT }}/${{ secrets.GCP_SA_KEY  }}/my-app:${{github.sha}}
+      run: docker push gcr.io/${{ secrets.GCP_PROJECT }}/${{ secrets.GCP_SA_KEY  }}/webpage:${{github.sha}}
 
    
