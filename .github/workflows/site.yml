@@ -31,7 +31,11 @@ jobs:
     - name: Build Docker image
       run: docker build -t gcr.io/${{ secrets.GCP_PROJECT }}/my-app:${{ github.sha }} .
     - name: Push Docker image
-      run: docker push gcr.io/${{ secrets.GCP_PROJECT }}/my-app:${{ github.sha }}
-      
+      env:
+        GCP_PROJECT: ${{ secrets.GCP_PROJECT }}
+      run: |
+        gcloud auth configure-docker us-central1-docker.pkg.dev
+        docker build -t us-central1-docker.pkg.dev/kube-429706/admin/webpage:latest .
+        docker push us-central1-docker.pkg.dev/kube-429706/admin/webpage:latest
 
    
