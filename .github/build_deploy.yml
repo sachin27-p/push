@@ -28,13 +28,13 @@ jobs:
         GCP_PROJECT: ${{ secrets.GCP_PROJECT }}
       run: |
         gcloud auth configure-docker us-central1-docker.pkg.dev
-        docker build -t us-central1-docker.pkg.dev/kube-429706/demo/html:latest .
-        docker push us-central1-docker.pkg.dev/kube-429706/demo/html:latest
+        docker build -t us-central1-docker.pkg.dev/kube-429706/demo/webpage:latest .
+        # docker push us-central1-docker.pkg.dev/kube-429706/demo/webpage:latest
 
     - name: deploy to gke
       env:
         GCP_PROJECT: ${{ secrets.GCP_PROJECT }}
       run: |
         gcloud container clusters get-credentials autopilot-cluster-1 --region us-central1
-        sed -i "s/GCP_PROJECT/$GCP_PROJECT/g" web.yaml
-        kubectl apply -f web.yaml
+        sed -i "s/GCP_PROJECT/$GCP_PROJECT/g" build.yaml
+        kubectl apply -f build.yaml
